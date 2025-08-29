@@ -4,59 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tomorrow App</title>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
     <div id="root"></div>
-
+    
     <script type="text/babel">
         const { useState, useEffect } = React;
-
-        // Lucide icons as SVG components
+        
+        // Simple Icon Components
         const Clock = ({ className }) => (
-            <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="12" r="10"/>
                 <polyline points="12,6 12,12 16,14"/>
             </svg>
         );
 
         const Award = ({ className }) => (
-            <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="12" cy="8" r="6"/>
                 <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
             </svg>
         );
 
         const Flame = ({ className }) => (
-            <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
             </svg>
         );
 
         const User = ({ className }) => (
-            <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                 <circle cx="12" cy="7" r="4"/>
             </svg>
         );
 
-        const Crown = ({ className, style }) => (
-            <svg className={className} style={style} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M11.562 3.266a.5.5 0 0 1 .876 0L14.663 8.5l4.553-.889a.5.5 0 0 1 .514.85L17.5 11.5 20.73 16.73a.5.5 0 0 1-.208.756L12 21l-8.522-3.514a.5.5 0 0 1-.208-.756L6.5 11.5 4.27 8.461a.5.5 0 0 1 .514-.85L9.337 8.5l2.225-5.234Z"/>
+        const Settings = ({ className }) => (
+            <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                <circle cx="12" cy="12" r="3"/>
             </svg>
         );
 
-        const Star = ({ className, style }) => (
-            <svg className={className} style={style} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+        const BarChart = ({ className }) => (
+            <svg className={className} width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="12" y1="20" x2="12" y2="10"/>
+                <line x1="18" y1="20" x2="18" y2="4"/>
+                <line x1="6" y1="20" x2="6" y2="16"/>
             </svg>
         );
-
-        const Tomorrow = () => {
-            // State management
+        
+        function TomorrowApp() {
+            // State
             const [phase, setPhase] = useState('input');
             const [answer, setAnswer] = useState('');
             const [savedAnswer, setSavedAnswer] = useState('');
@@ -64,86 +67,61 @@
             const [streakCount, setStreakCount] = useState(0);
             const [streakFreezes, setStreakFreezes] = useState(0);
             const [lastSubmissionTime, setLastSubmissionTime] = useState(null);
-            const [showStreakFreezePopup, setShowStreakFreezePopup] = useState(false);
-            const [showAccessoryPopup, setShowAccessoryPopup] = useState(false);
-            const [newAccessory, setNewAccessory] = useState('');
-            const [unlockedAccessories, setUnlockedAccessories] = useState([]);
             const [avatarColor, setAvatarColor] = useState('#3B82F6');
-            const [showAvatarCustomizer, setShowAvatarCustomizer] = useState(false);
+            const [darkMode, setDarkMode] = useState(false);
+            const [reminderTime, setReminderTime] = useState('20:00');
+            const [completionHistory, setCompletionHistory] = useState([]);
+            const [totalSubmissions, setTotalSubmissions] = useState(0);
+            
+            // Weekly reflection states
+            const [weeklyReflectionEnabled, setWeeklyReflectionEnabled] = useState(true);
+            const [reflectionDay, setReflectionDay] = useState(0); // 0 = Sunday
+            const [lastReflectionDate, setLastReflectionDate] = useState(null);
+            const [showReflectionPopup, setShowReflectionPopup] = useState(false);
+            const [showReflectionSuccess, setShowReflectionSuccess] = useState(false);
+            const [reflectionAnswers, setReflectionAnswers] = useState({
+                wentWell: '',
+                didntGoWell: '',
+                doDifferently: ''
+            });
+            const [completedReflections, setCompletedReflections] = useState([]);
+            
+            // Popups
             const [showCompletePopup, setShowCompletePopup] = useState(false);
             const [showStreakLostPopup, setShowStreakLostPopup] = useState(false);
             const [showStreakProtectedPopup, setShowStreakProtectedPopup] = useState(false);
-
-            // Test functions
-            const skipTimer = () => {
-                if (phase === 'waiting') {
-                    setPhase('complete');
-                }
-            };
-
-            const simulateStreakLoss = () => {
-                if (streakCount > 0) {
-                    setStreakCount(0);
-                    setShowStreakLostPopup(true);
-                }
-            };
-
-            const simulateStreakProtection = () => {
-                if (streakFreezes > 0) {
-                    setStreakFreezes(prev => prev - 1);
-                    setShowStreakProtectedPopup(true);
-                } else {
-                    // Add a streak freeze temporarily just for testing
-                    setStreakFreezes(1);
-                    setTimeout(() => {
-                        setStreakFreezes(0);
-                        setShowStreakProtectedPopup(true);
-                    }, 100);
-                }
-            };
-
-            // Avatar accessories system
-            const accessories = {
-                crown: { name: 'Crown', icon: Crown, requirement: 5, color: '#FFD700' },
-                star: { name: 'Star Badge', icon: Star, requirement: 8, color: '#FFA500' },
-                flame: { name: 'Fire Aura', icon: Flame, requirement: 15, color: '#FF4500' },
-                award: { name: 'Achievement Medal', icon: Award, requirement: 30, color: '#C0C0C0' }
-            };
-
-            // Inspirational quotes for completion
+            const [showStatsPopup, setShowStatsPopup] = useState(false);
+            const [showSettingsPopup, setShowSettingsPopup] = useState(false);
+            const [showAvatarCustomizer, setShowAvatarCustomizer] = useState(false);
+            const [showReflectionsHistory, setShowReflectionsHistory] = useState(false);
+            
+            const avatarColors = [
+                '#3B82F6', '#10B981', '#F59E0B', '#EF4444', 
+                '#8B5CF6', '#EC4899', '#06B6D4', '#84CC16'
+            ];
+            
             const inspirationalQuotes = [
                 "The way to get started is to quit talking and begin doing. - Walt Disney",
                 "Success is not final, failure is not fatal: it is the courage to continue that counts. - Winston Churchill",
                 "It is during our darkest moments that we must focus to see the light. - Aristotle",
                 "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
-                "You are never too old to set another goal or to dream a new dream. - C.S. Lewis",
-                "The only impossible journey is the one you never begin. - Tony Robbins",
-                "In the middle of difficulty lies opportunity. - Albert Einstein",
-                "Believe you can and you're halfway there. - Theodore Roosevelt",
-                "Don't watch the clock; do what it does. Keep going. - Sam Levenson",
-                "The best time to plant a tree was 20 years ago. The second best time is now. - Chinese Proverb"
+                "You are never too old to set another goal or to dream a new dream. - C.S. Lewis"
             ];
-
-            const avatarColors = [
-                '#3B82F6', '#10B981', '#F59E0B', '#EF4444', 
-                '#8B5CF6', '#EC4899', '#06B6D4', '#84CC16'
-            ];
-
-            // Save data to localStorage
+            
+            // Functions
             const saveData = () => {
-                const data = {
-                    phase,
-                    savedAnswer,
-                    streakCount,
-                    streakFreezes,
-                    lastSubmissionTime,
-                    unlockedAccessories,
-                    avatarColor
-                };
-                localStorage.setItem('tomorrowAppData', JSON.stringify(data));
+                try {
+                    const data = {
+                        phase, savedAnswer, streakCount, streakFreezes, lastSubmissionTime,
+                        avatarColor, completionHistory, totalSubmissions, darkMode, reminderTime,
+                        weeklyReflectionEnabled, reflectionDay, lastReflectionDate, completedReflections
+                    };
+                    localStorage.setItem('tomorrowAppData', JSON.stringify(data));
+                } catch (e) {
+                    console.log('Could not save');
+                }
             };
-
-            // Load data from localStorage
+            
             const loadData = () => {
                 try {
                     const saved = localStorage.getItem('tomorrowAppData');
@@ -154,17 +132,17 @@
                         setStreakCount(data.streakCount || 0);
                         setStreakFreezes(data.streakFreezes || 0);
                         setLastSubmissionTime(data.lastSubmissionTime || null);
-                        setUnlockedAccessories(data.unlockedAccessories || []);
                         setAvatarColor(data.avatarColor || '#3B82F6');
-                        return data;
+                        setCompletionHistory(data.completionHistory || []);
+                        setTotalSubmissions(data.totalSubmissions || 0);
+                        setDarkMode(data.darkMode || false);
+                        setReminderTime(data.reminderTime || '20:00');
                     }
-                } catch (error) {
-                    console.log('Error loading data:', error);
+                } catch (e) {
+                    console.log('Could not load');
                 }
-                return null;
             };
-
-            // Get time until next midnight
+            
             const getTimeUntilMidnight = () => {
                 const now = new Date();
                 const midnight = new Date();
@@ -172,115 +150,82 @@
                 midnight.setHours(0, 0, 0, 0);
                 return midnight.getTime() - now.getTime();
             };
-
-            // Check if it's a new day since last submission
-            const isNewDay = (lastTime) => {
-                if (!lastTime) return false;
-                const lastDate = new Date(lastTime);
-                const today = new Date();
-                
-                lastDate.setHours(0, 0, 0, 0);
-                today.setHours(0, 0, 0, 0);
-                
-                return today.getTime() > lastDate.getTime();
-            };
-
-            // Check if streak should be broken
-            const checkStreakExpiry = (loadedData) => {
-                const currentPhase = loadedData?.phase || phase;
-                const currentLastSubmission = loadedData?.lastSubmissionTime || lastSubmissionTime;
-                const currentStreakFreezes = loadedData?.streakFreezes || streakFreezes;
-                const currentStreakCount = loadedData?.streakCount || streakCount;
-                
-                if (!currentLastSubmission || currentPhase !== 'complete') return;
-                
-                const daysSinceSubmission = Math.floor((Date.now() - currentLastSubmission) / (24 * 60 * 60 * 1000));
-                
-                if (daysSinceSubmission > 1) {
-                    if (currentStreakFreezes > 0) {
-                        setStreakFreezes(prev => prev - 1);
-                        setShowStreakProtectedPopup(true);
-                    } else {
-                        if (currentStreakCount > 0) {
-                            setShowStreakLostPopup(true);
-                        }
-                        setStreakCount(0);
-                    }
-                    setPhase('input');
-                    setSavedAnswer('');
-                    setLastSubmissionTime(null);
-                }
-            };
-
-            // Check for new accessories
-            const checkNewAccessories = (newStreakCount) => {
-                Object.entries(accessories).forEach(([key, accessory]) => {
-                    if (newStreakCount === accessory.requirement && !unlockedAccessories.includes(key)) {
-                        setUnlockedAccessories(prev => [...prev, key]);
-                        setNewAccessory(accessory.name);
-                        setShowAccessoryPopup(true);
-                    }
-                });
-            };
-
-            // Load data and check state on mount
-            useEffect(() => {
-                const loadedData = loadData();
-                
-                setTimeout(() => {
-                    checkStreakExpiry(loadedData);
-                    
-                    const currentPhase = loadedData?.phase || phase;
-                    const currentLastSubmission = loadedData?.lastSubmissionTime || lastSubmissionTime;
-                    
-                    if (currentPhase === 'waiting') {
-                        if (isNewDay(currentLastSubmission)) {
-                            setPhase('complete');
-                        } else {
-                            setTimeRemaining(getTimeUntilMidnight());
-                        }
-                    }
-                }, 100);
-            }, []);
-
-            // Save data whenever state changes
-            useEffect(() => {
-                saveData();
-            }, [phase, savedAnswer, streakCount, streakFreezes, lastSubmissionTime, unlockedAccessories, avatarColor]);
-
-            // Timer effect for countdown to midnight
-            useEffect(() => {
-                let interval;
-                if (phase === 'waiting' && timeRemaining > 0) {
-                    interval = setInterval(() => {
-                        const newTimeRemaining = getTimeUntilMidnight();
-                        setTimeRemaining(newTimeRemaining);
-                        
-                        if (newTimeRemaining <= 0 || isNewDay(lastSubmissionTime)) {
-                            setPhase('complete');
-                        }
-                    }, 1000);
-                }
-                return () => clearInterval(interval);
-            }, [phase, timeRemaining, lastSubmissionTime]);
-
-            // Format time for display
+            
             const formatTime = (ms) => {
                 const seconds = Math.ceil(ms / 1000);
+                if (seconds <= 0) return "0s";
+                
                 const hours = Math.floor(seconds / 3600);
                 const minutes = Math.floor((seconds % 3600) / 60);
                 const secs = seconds % 60;
                 
-                if (hours > 0) {
-                    return `${hours}h ${minutes}m ${secs}s`;
-                } else if (minutes > 0) {
-                    return `${minutes}m ${secs}s`;
-                } else {
-                    return `${secs}s`;
+                if (hours > 0) return `${hours}h ${minutes}m ${secs}s`;
+                if (minutes > 0) return `${minutes}m ${secs}s`;
+                return `${secs}s`;
+            };
+            
+            const getCompletionRate = () => {
+                if (totalSubmissions === 0) return 0;
+                return Math.round((completionHistory.length / totalSubmissions) * 100);
+            };
+            
+            const analyzePatterns = () => {
+                if (completionHistory.length === 0) {
+                    return "Complete a few commitments to see your patterns!";
+                }
+                return `You've completed ${completionHistory.length} commitments so far. Keep it up!`;
+            };
+
+            // Weekly reflection functions
+            const getDayName = (dayNum) => {
+                const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                return days[dayNum];
+            };
+
+            const checkForWeeklyReflection = () => {
+                if (!weeklyReflectionEnabled) return;
+                
+                const today = new Date();
+                const todayDay = today.getDay();
+                
+                // Check if today is the reflection day
+                if (todayDay === reflectionDay) {
+                    const todayStr = today.toISOString().split('T')[0];
+                    
+                    // Check if we haven't done reflection this week
+                    if (!lastReflectionDate || lastReflectionDate !== todayStr) {
+                        setShowReflectionPopup(true);
+                    }
                 }
             };
 
-            // Handle submission
+            const handleReflectionSubmit = () => {
+                if (reflectionAnswers.wentWell.trim() || reflectionAnswers.didntGoWell.trim() || reflectionAnswers.doDifferently.trim()) {
+                    const reflection = {
+                        date: new Date().toISOString().split('T')[0],
+                        timestamp: Date.now(),
+                        wentWell: reflectionAnswers.wentWell.trim(),
+                        didntGoWell: reflectionAnswers.didntGoWell.trim(),
+                        doDifferently: reflectionAnswers.doDifferently.trim()
+                    };
+                    
+                    setCompletedReflections(prev => [...prev, reflection]);
+                    setLastReflectionDate(reflection.date);
+                    setReflectionAnswers({ wentWell: '', didntGoWell: '', doDifferently: '' });
+                    setShowReflectionPopup(false);
+                    
+                    // Show success animation
+                    setShowReflectionSuccess(true);
+                    setTimeout(() => setShowReflectionSuccess(false), 3000);
+                }
+            };
+
+            const skipReflection = () => {
+                setLastReflectionDate(new Date().toISOString().split('T')[0]);
+                setReflectionAnswers({ wentWell: '', didntGoWell: '', doDifferently: '' });
+                setShowReflectionPopup(false);
+            };
+            
             const handleSubmit = () => {
                 if (answer.trim()) {
                     setSavedAnswer(answer.trim());
@@ -288,28 +233,21 @@
                     setLastSubmissionTime(Date.now());
                     setTimeRemaining(getTimeUntilMidnight());
                     setPhase('waiting');
+                    setTotalSubmissions(prev => prev + 1);
                 }
             };
-
-            // Handle completion
+            
             const handleComplete = () => {
-                setStreakCount(prev => {
-                    const newStreak = prev + 1;
-                    
-                    if (newStreak % 3 === 0) {
-                        setStreakFreezes(freezes => freezes + 1);
-                        setShowStreakFreezePopup(true);
-                    }
-                    
-                    checkNewAccessories(newStreak);
-                    
-                    return newStreak;
-                });
-
-                // Show completion popup
+                const completionData = {
+                    date: new Date().toISOString().split('T')[0],
+                    dayOfWeek: new Date().getDay(),
+                    timestamp: Date.now()
+                };
+                
+                setCompletionHistory(prev => [...prev, completionData]);
+                setStreakCount(prev => prev + 1);
                 setShowCompletePopup(true);
                 
-                // Auto-dismiss after 4 seconds and reset phase
                 setTimeout(() => {
                     setShowCompletePopup(false);
                     setPhase('input');
@@ -318,193 +256,495 @@
                     setTimeRemaining(0);
                 }, 4000);
             };
-
-            // Use streak freeze
-            const useStreakFreeze = () => {
-                if (streakFreezes > 0) {
-                    setStreakFreezes(prev => prev - 1);
-                    alert('Streak freeze used! Your streak is protected.');
+            
+            // Test functions
+            const skipTimer = () => {
+                if (phase === 'waiting') {
+                    setPhase('complete');
                 }
             };
+            
+            const setTimer15Seconds = () => {
+                if (phase === 'waiting') {
+                    setTimeRemaining(15000);
+                    // Also update the last submission time to match the new timer
+                    const now = Date.now();
+                    const fifteenSecondsFromNow = now + 15000;
+                    const midnight = new Date();
+                    midnight.setDate(midnight.getDate() + 1);
+                    midnight.setHours(0, 0, 0, 0);
+                    const adjustedSubmissionTime = midnight.getTime() - 15000;
+                    setLastSubmissionTime(adjustedSubmissionTime);
+                }
+            };
+            
+            const simulateStreakLoss = () => {
+                if (streakCount > 0) {
+                    setStreakCount(0);
+                    setShowStreakLostPopup(true);
+                    setPhase('input');
+                    setSavedAnswer('');
+                    setLastSubmissionTime(null);
+                    setTimeRemaining(0);
+                }
+            };
+            
+            const simulateStreakProtection = () => {
+                if (streakFreezes > 0) {
+                    setStreakFreezes(prev => prev - 1);
+                } else {
+                    setStreakFreezes(1);
+                    setTimeout(() => setStreakFreezes(0), 100);
+                }
+                setShowStreakProtectedPopup(true);
+                setPhase('input');
+                setSavedAnswer('');
+                setLastSubmissionTime(null);
+                setTimeRemaining(0);
+            };
 
-            // Avatar component
-            const Avatar = () => (
-                <div className="relative">
-                    <div 
-                        className="w-16 h-16 rounded-full flex items-center justify-center border-4 border-gray-200 cursor-pointer"
-                        style={{ backgroundColor: avatarColor }}
-                        onClick={() => setShowAvatarCustomizer(true)}
-                    >
-                        <User className="w-8 h-8 text-white" />
+            const simulateWeeklyReflection = () => {
+                setShowReflectionPopup(true);
+            };
+            
+            // Effects
+            useEffect(() => {
+                loadData();
+            }, []);
+
+            useEffect(() => {
+                checkForWeeklyReflection();
+            }, [weeklyReflectionEnabled, reflectionDay, lastReflectionDate]);
+            
+            useEffect(() => {
+                saveData();
+            }, [phase, streakCount, completionHistory, totalSubmissions, darkMode, reminderTime, weeklyReflectionEnabled, reflectionDay, lastReflectionDate, completedReflections]);
+            
+            useEffect(() => {
+                let interval;
+                if (phase === 'waiting') {
+                    interval = setInterval(() => {
+                        const newTimeRemaining = getTimeUntilMidnight();
+                        setTimeRemaining(newTimeRemaining);
+                        if (newTimeRemaining <= 1000) {
+                            setPhase('complete');
+                            clearInterval(interval);
+                        }
+                    }, 1000);
+                }
+                return () => clearInterval(interval);
+            }, [phase]);
+            
+            return (
+                <div className={`min-h-screen flex items-center justify-center p-4 ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
+                    {/* Navigation */}
+                    <div className="fixed top-4 left-4 flex gap-2 z-40">
+                        <button
+                            onClick={() => setShowStatsPopup(true)}
+                            className={`p-2 rounded-lg ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'}`}
+                        >
+                            <BarChart className="w-5 h-5" />
+                        </button>
+                        <button
+                            onClick={() => setShowSettingsPopup(true)}
+                            className={`p-2 rounded-lg ${darkMode ? 'bg-gray-700 hover:bg-gray-600' : 'bg-gray-100 hover:bg-gray-200'}`}
+                        >
+                            <Settings className="w-5 h-5" />
+                        </button>
                     </div>
                     
-                    {/* Display accessories */}
-                    {unlockedAccessories.map((accessoryKey, index) => {
-                        const Accessory = accessories[accessoryKey].icon;
-                        const color = accessories[accessoryKey].color;
-                        return (
-                            <Accessory
-                                key={accessoryKey}
-                                className="absolute w-4 h-4"
-                                style={{ 
-                                    color,
-                                    top: `${-2 + index * 8}px`,
-                                    right: `${-2 + index * 8}px`
-                                }}
-                            />
-                        );
-                    })}
-                </div>
-            );
-
-            return (
-                <div className="min-h-screen bg-white flex items-center justify-center p-4">
                     {/* Test Buttons */}
                     <div className="fixed top-4 right-4 flex flex-col gap-2 z-40">
-                        <button
-                            onClick={skipTimer}
-                            className="bg-green-500 text-white px-3 py-1 rounded text-xs hover:bg-green-600 transition-colors"
-                            title="Skip timer to completion phase"
+                        <button 
+                            onClick={skipTimer} 
+                            className="bg-green-500 text-white px-3 py-1 rounded text-xs hover:bg-green-600"
                         >
                             Skip Timer
                         </button>
-                        <button
-                            onClick={simulateStreakLoss}
-                            className="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600 transition-colors"
-                            title="Simulate losing streak (no freeze)"
+                        <button 
+                            onClick={simulateWeeklyReflection} 
+                            className="bg-purple-500 text-white px-3 py-1 rounded text-xs hover:bg-purple-600"
+                        >
+                            Reflection
+                        </button>
+                        <button 
+                            onClick={simulateStreakLoss} 
+                            className="bg-red-500 text-white px-3 py-1 rounded text-xs hover:bg-red-600"
                         >
                             Lose Streak
                         </button>
-                        <button
-                            onClick={simulateStreakProtection}
-                            className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition-colors"
-                            title="Simulate streak protection (with freeze)"
+                        <button 
+                            onClick={simulateStreakProtection} 
+                            className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600"
                         >
                             Use Freeze
                         </button>
                     </div>
-                    {/* Complete Popup */}
+                    
+                    {/* Reflection Success Popup */}
+                    {showReflectionSuccess && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                            {/* Confetti */}
+                            <div className="fixed inset-0 overflow-hidden pointer-events-none">
+                                {[...Array(20)].map((_, i) => (
+                                    <div key={i} className="confetti"></div>
+                                ))}
+                            </div>
+                            
+                            {/* Success Message */}
+                            <div className={`rounded-lg p-8 max-w-sm w-full text-center shadow-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                                {/* Simple Animated Checkmark */}
+                                <div className="relative mx-auto mb-4" style={{width: '80px', height: '80px'}}>
+                                    <div className="absolute inset-0 bg-green-500 rounded-full flex items-center justify-center animate-bounce">
+                                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                            <polyline points="20,6 9,17 4,12" className="animate-pulse"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                
+                                <h3 className="text-2xl font-bold text-green-600 mb-2">Reflection Complete!</h3>
+                                <p className={`${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                                    Great job taking time to reflect on your week. This self-awareness will help you grow! 🌱
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Weekly Reflection Popup */}
+                    {showReflectionPopup && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                            <div className={`rounded-lg p-6 max-w-lg w-full shadow-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                                <div className="flex justify-between items-center mb-6">
+                                    <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Weekly Reflection</h3>
+                                    <button
+                                        onClick={skipReflection}
+                                        className={`text-2xl ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-700'}`}
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                                
+                                <p className={`text-sm mb-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                                    Take a moment to reflect on your week. This helps you grow and improve!
+                                </p>
+                                
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                            What went well this week? 🌟
+                                        </label>
+                                        <textarea
+                                            value={reflectionAnswers.wentWell}
+                                            onChange={(e) => setReflectionAnswers(prev => ({...prev, wentWell: e.target.value}))}
+                                            className={`w-full p-3 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 ${darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-200 text-gray-900 placeholder-gray-500'}`}
+                                            rows="2"
+                                            placeholder="Celebrate your wins..."
+                                        />
+                                    </div>
+                                    
+                                    <div>
+                                        <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                            What didn't go well this week? 🤔
+                                        </label>
+                                        <textarea
+                                            value={reflectionAnswers.didntGoWell}
+                                            onChange={(e) => setReflectionAnswers(prev => ({...prev, didntGoWell: e.target.value}))}
+                                            className={`w-full p-3 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 ${darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-200 text-gray-900 placeholder-gray-500'}`}
+                                            rows="2"
+                                            placeholder="What challenges did you face..."
+                                        />
+                                    </div>
+                                    
+                                    <div>
+                                        <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                            What can you do differently next week? 💡
+                                        </label>
+                                        <textarea
+                                            value={reflectionAnswers.doDifferently}
+                                            onChange={(e) => setReflectionAnswers(prev => ({...prev, doDifferently: e.target.value}))}
+                                            className={`w-full p-3 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 ${darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-200 text-gray-900 placeholder-gray-500'}`}
+                                            rows="2"
+                                            placeholder="How can you improve..."
+                                        />
+                                    </div>
+                                </div>
+                                
+                                <div className="flex gap-3 mt-6">
+                                    <button
+                                        onClick={handleReflectionSubmit}
+                                        className="flex-1 bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors font-medium"
+                                    >
+                                        Complete Reflection
+                                    </button>
+                                    <button
+                                        onClick={skipReflection}
+                                        className={`px-4 py-3 rounded-lg transition-colors ${darkMode ? 'bg-gray-600 hover:bg-gray-500 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-700'}`}
+                                    >
+                                        Skip
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     {showCompletePopup && (
                         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                            <div className="bg-white rounded-lg p-8 max-w-md w-full text-center shadow-lg">
-                                <div className="mb-6">
-                                    <div className="text-6xl mb-4">🎉</div>
-                                    <h3 className="text-2xl font-bold text-green-600 mb-2">Congrats!</h3>
-                                    <h4 className="text-xl font-semibold text-gray-900 mb-4">You completed your commitment!</h4>
-                                </div>
-                                <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                                    <p className="text-gray-700 italic text-sm leading-relaxed">
+                            <div className={`rounded-lg p-8 max-w-md w-full text-center shadow-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                                <div className="text-6xl mb-4">🎉</div>
+                                <h3 className="text-2xl font-bold text-green-600 mb-2">Congrats!</h3>
+                                <h4 className={`text-xl font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>You completed your commitment!</h4>
+                                <div className={`p-4 rounded-lg mb-4 ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
+                                    <p className={`text-sm italic ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                                         "{inspirationalQuotes[Math.floor(Math.random() * inspirationalQuotes.length)]}"
                                     </p>
                                 </div>
-                                <p className="text-green-600 font-medium">
-                                    Keep building that amazing streak! 💪
-                                </p>
+                                <p className="text-green-600 font-medium">Keep building that amazing streak! 💪</p>
                             </div>
                         </div>
                     )}
-
-                    {/* Streak Lost Popup */}
-                    {showStreakLostPopup && (
+                    
+                    {/* Reflections History Popup */}
+                    {showReflectionsHistory && (
                         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                            <div className="bg-white rounded-lg p-6 max-w-sm w-full text-center shadow-lg">
-                                <div className="mb-4">
-                                    <div className="text-4xl mb-3">😔</div>
-                                    <h3 className="text-xl font-semibold text-red-600">Streak Lost</h3>
+                            <div className={`rounded-lg p-6 max-w-4xl w-full max-h-[80vh] overflow-hidden shadow-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                                <div className="flex justify-between items-center mb-6">
+                                    <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Your Weekly Reflections</h3>
+                                    <button
+                                        onClick={() => setShowReflectionsHistory(false)}
+                                        className={`text-2xl ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-700'}`}
+                                    >
+                                        ×
+                                    </button>
                                 </div>
-                                <p className="text-gray-600 mb-4">
-                                    You missed completing your commitment and your streak has been reset. Don't worry - every day is a fresh start!
-                                </p>
-                                <button
-                                    onClick={() => setShowStreakLostPopup(false)}
-                                    className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition-colors"
-                                >
-                                    Start Fresh
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Streak Protected Popup */}
-                    {showStreakProtectedPopup && (
-                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                            <div className="bg-white rounded-lg p-6 max-w-sm w-full text-center shadow-lg">
-                                <div className="mb-4">
-                                    <div className="text-4xl mb-3">🛡️</div>
-                                    <h3 className="text-xl font-semibold text-blue-600">Streak Protected!</h3>
+                                
+                                <div className="overflow-y-auto max-h-[60vh]">
+                                    {completedReflections.length === 0 ? (
+                                        <div className={`text-center py-8 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                            <p>No reflections completed yet.</p>
+                                            <p className="text-sm mt-2">Complete your first weekly reflection to see it here!</p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-6">
+                                            {completedReflections.slice().reverse().map((reflection, index) => (
+                                                <div key={reflection.timestamp} className={`border rounded-lg p-4 ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-200 bg-gray-50'}`}>
+                                                    <div className="flex justify-between items-center mb-3">
+                                                        <h4 className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                                            Week of {new Date(reflection.date).toLocaleDateString('en-US', { 
+                                                                year: 'numeric', 
+                                                                month: 'long', 
+                                                                day: 'numeric' 
+                                                            })}
+                                                        </h4>
+                                                        <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                                            #{completedReflections.length - index}
+                                                        </span>
+                                                    </div>
+                                                    
+                                                    <div className="space-y-3">
+                                                        {reflection.wentWell && (
+                                                            <div>
+                                                                <p className={`text-sm font-medium mb-1 ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
+                                                                    🌟 What went well:
+                                                                </p>
+                                                                <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                                                                    {reflection.wentWell}
+                                                                </p>
+                                                            </div>
+                                                        )}
+                                                        
+                                                        {reflection.didntGoWell && (
+                                                            <div>
+                                                                <p className={`text-sm font-medium mb-1 ${darkMode ? 'text-yellow-400' : 'text-yellow-600'}`}>
+                                                                    🤔 What didn't go well:
+                                                                </p>
+                                                                <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                                                                    {reflection.didntGoWell}
+                                                                </p>
+                                                            </div>
+                                                        )}
+                                                        
+                                                        {reflection.doDifferently && (
+                                                            <div>
+                                                                <p className={`text-sm font-medium mb-1 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                                                                    💡 What to do differently:
+                                                                </p>
+                                                                <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                                                                    {reflection.doDifferently}
+                                                                </p>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
-                                <p className="text-gray-600 mb-4">
-                                    You missed a day, but your streak freeze was automatically used to protect your progress. Your streak is safe!
-                                </p>
-                                <button
-                                    onClick={() => setShowStreakProtectedPopup(false)}
-                                    className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition-colors"
-                                >
-                                    Phew! 😅
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Streak Freeze Popup */}
-                    {showStreakFreezePopup && (
-                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                            <div className="bg-white rounded-lg p-6 max-w-sm w-full text-center shadow-lg">
-                                <div className="mb-4">
-                                    <Award className="w-12 h-12 text-blue-500 mx-auto mb-2" />
-                                    <h3 className="text-xl font-semibold text-gray-900">Streak Freeze Earned!</h3>
-                                </div>
-                                <p className="text-gray-600 mb-4">
-                                    You've completed 3 days in a row and earned a streak freeze! Use it to protect your streak if you miss a day.
-                                </p>
-                                <button
-                                    onClick={() => setShowStreakFreezePopup(false)}
-                                    className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition-colors"
-                                >
-                                    Awesome!
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* New Accessory Popup */}
-                    {showAccessoryPopup && (
-                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                            <div className="bg-white rounded-lg p-6 max-w-sm w-full text-center shadow-lg">
-                                <div className="mb-4">
-                                    <div className="w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-                                        {Object.entries(accessories).map(([key, acc]) => {
-                                            if (acc.name === newAccessory) {
-                                                const Icon = acc.icon;
-                                                return <Icon key={key} className="w-12 h-12" style={{ color: acc.color }} />;
-                                            }
-                                            return null;
-                                        })}
+                                
+                                {completedReflections.length > 0 && (
+                                    <div className={`mt-6 pt-4 border-t text-center ${darkMode ? 'border-gray-600 text-gray-400' : 'border-gray-200 text-gray-500'}`}>
+                                        <p className="text-sm">
+                                            {completedReflections.length} reflection{completedReflections.length !== 1 ? 's' : ''} completed • Keep up the great work! 🌱
+                                        </p>
                                     </div>
-                                    <h3 className="text-xl font-semibold text-gray-900">New Accessory Unlocked!</h3>
-                                </div>
-                                <p className="text-gray-600 mb-4">
-                                    You earned the <strong>{newAccessory}</strong> for reaching {streakCount} days!
-                                </p>
-                                <button
-                                    onClick={() => setShowAccessoryPopup(false)}
-                                    className="bg-purple-500 text-white py-2 px-6 rounded-lg hover:bg-purple-600 transition-colors"
-                                >
-                                    Cool!
-                                </button>
+                                )}
                             </div>
                         </div>
                     )}
 
+                    {/* Stats Popup */}
+                    {showStatsPopup && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                            <div className={`rounded-lg p-6 max-w-md w-full shadow-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                                <div className="flex justify-between items-center mb-6">
+                                    <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Your Statistics</h3>
+                                    <button
+                                        onClick={() => setShowStatsPopup(false)}
+                                        className={`text-2xl ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-700'}`}
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                                
+                                <div className="space-y-4">
+                                    <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
+                                        <h4 className={`font-medium mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Completion Rate</h4>
+                                        <div className="text-3xl font-bold text-green-500">{getCompletionRate()}%</div>
+                                        <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                                            {completionHistory.length} completed out of {totalSubmissions} submitted
+                                        </p>
+                                    </div>
+                                    
+                                    <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
+                                        <h4 className={`font-medium mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Current Streak</h4>
+                                        <div className="text-3xl font-bold text-orange-500">{streakCount}</div>
+                                        <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>days in a row</p>
+                                    </div>
+                                    
+                                    <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
+                                        <div className="flex justify-between items-center">
+                                            <div>
+                                                <h4 className={`font-medium mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Weekly Reflections</h4>
+                                                <div className="text-3xl font-bold text-purple-500">{completedReflections.length}</div>
+                                                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>reflections completed</p>
+                                            </div>
+                                            {completedReflections.length > 0 && (
+                                                <button
+                                                    onClick={() => setShowReflectionsHistory(true)}
+                                                    className="bg-purple-500 text-white px-3 py-2 rounded-lg text-sm hover:bg-purple-600 transition-colors"
+                                                >
+                                                    View All
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                    
+                                    <div className={`p-4 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
+                                        <h4 className={`font-medium mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Pattern Analysis</h4>
+                                        <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                                            {analyzePatterns()}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    
+                    {/* Settings Popup */}
+                    {showSettingsPopup && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                            <div className={`rounded-lg p-6 max-w-md w-full shadow-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                                <div className="flex justify-between items-center mb-6">
+                                    <h3 className={`text-xl font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>Settings</h3>
+                                    <button
+                                        onClick={() => setShowSettingsPopup(false)}
+                                        className={`text-2xl ${darkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-700'}`}
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                                
+                                <div className="space-y-6">
+                                    <div>
+                                        <h4 className={`font-medium mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Theme</h4>
+                                        <div className="flex gap-2">
+                                            <button
+                                                onClick={() => setDarkMode(false)}
+                                                className={`px-4 py-2 rounded-lg ${!darkMode ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                                            >
+                                                Light Mode
+                                            </button>
+                                            <button
+                                                onClick={() => setDarkMode(true)}
+                                                className={`px-4 py-2 rounded-lg ${darkMode ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                                            >
+                                                Dark Mode
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div>
+                                        <h4 className={`font-medium mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Daily Reminder Time</h4>
+                                        <input
+                                            type="time"
+                                            value={reminderTime}
+                                            onChange={(e) => setReminderTime(e.target.value)}
+                                            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200 text-gray-900'}`}
+                                        />
+                                    </div>
+                                    
+                                    <div>
+                                        <h4 className={`font-medium mb-3 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Weekly Reflection</h4>
+                                        <div className="space-y-3">
+                                            <div className="flex items-center justify-between">
+                                                <span className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Enable weekly reflection</span>
+                                                <button
+                                                    onClick={() => setWeeklyReflectionEnabled(!weeklyReflectionEnabled)}
+                                                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${weeklyReflectionEnabled ? 'bg-blue-500' : (darkMode ? 'bg-gray-600' : 'bg-gray-300')}`}
+                                                >
+                                                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${weeklyReflectionEnabled ? 'translate-x-6' : 'translate-x-1'}`} />
+                                                </button>
+                                            </div>
+                                            
+                                            {weeklyReflectionEnabled && (
+                                                <div>
+                                                    <label className={`block text-sm mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                                                        Reflection day:
+                                                    </label>
+                                                    <select
+                                                        value={reflectionDay}
+                                                        onChange={(e) => setReflectionDay(parseInt(e.target.value))}
+                                                        className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${darkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200 text-gray-900'}`}
+                                                    >
+                                                        <option value={0}>Sunday</option>
+                                                        <option value={1}>Monday</option>
+                                                        <option value={2}>Tuesday</option>
+                                                        <option value={3}>Wednesday</option>
+                                                        <option value={4}>Thursday</option>
+                                                        <option value={5}>Friday</option>
+                                                        <option value={6}>Saturday</option>
+                                                    </select>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    
                     {/* Avatar Customizer */}
                     {showAvatarCustomizer && (
                         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                            <div className="bg-white rounded-lg p-6 max-w-sm w-full text-center shadow-lg">
-                                <h3 className="text-xl font-semibold text-gray-900 mb-4">Customize Avatar</h3>
+                            <div className={`rounded-lg p-6 max-w-sm w-full text-center shadow-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                                <h3 className={`text-xl font-semibold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Customize Avatar</h3>
                                 <div className="flex justify-center mb-4">
-                                    <Avatar />
+                                    <div 
+                                        className="w-16 h-16 rounded-full flex items-center justify-center border-4 border-gray-200"
+                                        style={{ backgroundColor: avatarColor }}
+                                    >
+                                        <User className="w-8 h-8 text-white" />
+                                    </div>
                                 </div>
-                                <p className="text-sm text-gray-600 mb-3">Choose a color:</p>
+                                <p className={`text-sm mb-3 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>Choose a color:</p>
                                 <div className="grid grid-cols-4 gap-2 mb-4">
                                     {avatarColors.map(color => (
                                         <button
@@ -517,22 +757,66 @@
                                 </div>
                                 <button
                                     onClick={() => setShowAvatarCustomizer(false)}
-                                    className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition-colors"
+                                    className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600"
                                 >
                                     Done
                                 </button>
                             </div>
                         </div>
                     )}
-
+                    
+                    {/* Other Popups */}
+                    {showStreakLostPopup && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                            <div className={`rounded-lg p-6 max-w-sm w-full text-center shadow-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                                <div className="text-4xl mb-3">😔</div>
+                                <h3 className="text-xl font-semibold text-red-600 mb-4">Streak Lost</h3>
+                                <p className={`mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                                    Your streak has been reset. Every day is a fresh start!
+                                </p>
+                                <button
+                                    onClick={() => setShowStreakLostPopup(false)}
+                                    className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600"
+                                >
+                                    Start Fresh
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                    
+                    {showStreakProtectedPopup && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                            <div className={`rounded-lg p-6 max-w-sm w-full text-center shadow-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                                <div className="text-4xl mb-3">🛡️</div>
+                                <h3 className="text-xl font-semibold text-blue-600 mb-4">Streak Protected!</h3>
+                                <p className={`mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                                    Your streak freeze was used. Your streak is safe!
+                                </p>
+                                <button
+                                    onClick={() => setShowStreakProtectedPopup(false)}
+                                    className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600"
+                                >
+                                    Phew! 😅
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                    
+                    {/* Main Content */}
                     <div className="w-full max-w-md">
-                        {/* Header with streak info and avatar */}
+                        {/* Header */}
                         <div className="text-center mb-8">
                             <div className="flex justify-center mb-4">
-                                <Avatar />
+                                <div 
+                                    className="w-16 h-16 rounded-full flex items-center justify-center border-4 border-gray-200 cursor-pointer"
+                                    style={{ backgroundColor: avatarColor }}
+                                    onClick={() => setShowAvatarCustomizer(true)}
+                                >
+                                    <User className="w-8 h-8 text-white" />
+                                </div>
                             </div>
-                            <h1 className="text-3xl font-light text-gray-900 mb-4">Tomorrow</h1>
-                            <div className="flex items-center justify-center space-x-6 text-sm text-gray-600">
+                            <h1 className={`text-3xl font-light mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>Tomorrow</h1>
+                            <div className={`flex items-center justify-center space-x-6 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                                 <div className="flex items-center space-x-1">
                                     <Flame className="w-4 h-4 text-orange-500" />
                                     <span>{streakCount} day streak</span>
@@ -544,27 +828,20 @@
                                     </div>
                                 )}
                             </div>
-                            
-                            {/* Accessories progress */}
-                            {Object.entries(accessories).some(([key, acc]) => !unlockedAccessories.includes(key) && streakCount < acc.requirement + 5) && (
-                                <div className="mt-3 text-xs text-gray-500">
-                                    <p>Next reward: {Object.entries(accessories).find(([key, acc]) => !unlockedAccessories.includes(key) && streakCount < acc.requirement)?.[1]?.name} at {Object.entries(accessories).find(([key, acc]) => !unlockedAccessories.includes(key) && streakCount < acc.requirement)?.[1]?.requirement} days</p>
-                                </div>
-                            )}
                         </div>
-
-                        {/* Phase 1: Input */}
+                        
+                        {/* Phase Content */}
                         {phase === 'input' && (
                             <div className="text-center">
                                 <div className="space-y-6">
                                     <div>
-                                        <label className="block text-lg text-gray-700 mb-4">
+                                        <label className={`block text-lg mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                                             How will tomorrow be better?
                                         </label>
                                         <textarea
                                             value={answer}
                                             onChange={(e) => setAnswer(e.target.value)}
-                                            className="w-full p-4 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                            className={`w-full p-4 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 ${darkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-200 text-gray-900 placeholder-gray-500'}`}
                                             rows="4"
                                             placeholder="Type your answer here..."
                                             onKeyDown={(e) => {
@@ -578,46 +855,36 @@
                                     <button
                                         onClick={handleSubmit}
                                         disabled={!answer.trim()}
-                                        className="w-full bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors font-medium disabled:bg-gray-300 disabled:cursor-not-allowed"
+                                        className="w-full bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors font-medium disabled:bg-gray-300"
                                     >
                                         Submit
                                     </button>
                                 </div>
                             </div>
                         )}
-
-                        {/* Phase 2: Waiting/Timer */}
+                        
                         {phase === 'waiting' && (
                             <div className="text-center space-y-6">
                                 <div className="flex items-center justify-center mb-4">
                                     <Clock className="w-8 h-8 text-blue-500" />
                                 </div>
-                                <h2 className="text-xl text-gray-700">Your answer is saved!</h2>
-                                <div className="text-3xl font-light text-gray-900">
+                                <h2 className={`text-xl ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Your answer is saved!</h2>
+                                <div className={`text-3xl font-light ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                                     {formatTime(timeRemaining)}
                                 </div>
-                                <p className="text-gray-600">
+                                <p className={darkMode ? 'text-gray-400' : 'text-gray-600'}>
                                     Time until you can complete your commitment.
                                 </p>
-                                {streakFreezes > 0 && (
-                                    <button
-                                        onClick={useStreakFreeze}
-                                        className="mt-4 text-blue-500 hover:text-blue-600 text-sm underline"
-                                    >
-                                        Use Streak Freeze ({streakFreezes} available)
-                                    </button>
-                                )}
                             </div>
                         )}
-
-                        {/* Phase 3: Complete */}
+                        
                         {phase === 'complete' && (
                             <div className="text-center space-y-6">
-                                <h2 className="text-xl text-gray-700 mb-4">Yesterday, you said:</h2>
-                                <div className="bg-gray-50 p-6 rounded-lg">
-                                    <p className="text-gray-900 italic text-lg">"{savedAnswer}"</p>
+                                <h2 className={`text-xl mb-4 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Yesterday, you said:</h2>
+                                <div className={`p-6 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>
+                                    <p className={`italic text-lg ${darkMode ? 'text-white' : 'text-gray-900'}`}>"{savedAnswer}"</p>
                                 </div>
-                                <p className="text-gray-600">
+                                <p className={darkMode ? 'text-gray-400' : 'text-gray-600'}>
                                     Did you make today better?
                                 </p>
                                 <button
@@ -631,9 +898,9 @@
                     </div>
                 </div>
             );
-        };
-
-        ReactDOM.render(<Tomorrow />, document.getElementById('root'));
+        }
+        
+        ReactDOM.render(<TomorrowApp />, document.getElementById('root'));
     </script>
 </body>
 </html>
