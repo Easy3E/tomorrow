@@ -151,6 +151,21 @@
                 midnight.setHours(0, 0, 0, 0);
                 return midnight.getTime() - now.getTime();
             };
+
+            const getTimeRemaining = () => {
+                if (!lastSubmissionTime) return 0;
+                
+                // Calculate the target completion time (midnight after submission)
+                const submissionDate = new Date(lastSubmissionTime);
+                const targetMidnight = new Date(submissionDate);
+                targetMidnight.setDate(submissionDate.getDate() + 1);
+                targetMidnight.setHours(0, 0, 0, 0);
+                
+                const now = Date.now();
+                const remaining = targetMidnight.getTime() - now;
+                
+                return Math.max(0, remaining);
+            };
             
             const formatTime = (ms) => {
                 const seconds = Math.ceil(ms / 1000);
@@ -249,10 +264,19 @@
             
             const handleSubmit = () => {
                 if (answer.trim()) {
+                    const submissionTime = Date.now();
                     setSavedAnswer(answer.trim());
                     setAnswer('');
-                    setLastSubmissionTime(Date.now());
-                    setTimeRemaining(getTimeUntilMidnight());
+                    setLastSubmissionTime(submissionTime);
+                    
+                    // Calculate initial time remaining based on submission time
+                    const submissionDate = new Date(submissionTime);
+                    const targetMidnight = new Date(submissionDate);
+                    targetMidnight.setDate(submissionDate.getDate() + 1);
+                    targetMidnight.setHours(0, 0, 0, 0);
+                    
+                    const initialTimeRemaining = targetMidnight.getTime() - submissionTime;
+                    setTimeRemaining(initialTimeRemaining);
                     setPhase('waiting');
                     setTotalSubmissions(prev => prev + 1);
                 }
