@@ -94,6 +94,7 @@
             const [showSettingsPopup, setShowSettingsPopup] = useState(false);
             const [showAvatarCustomizer, setShowAvatarCustomizer] = useState(false);
             const [showReflectionsHistory, setShowReflectionsHistory] = useState(false);
+            const [expandedReflections, setExpandedReflections] = useState(new Set());
             
             const avatarColors = [
                 '#3B82F6', '#10B981', '#F59E0B', '#EF4444', 
@@ -176,12 +177,7 @@
                 return `You've completed ${completionHistory.length} commitments so far. Keep it up!`;
             };
 
-            // Weekly reflection functions
-            const getDayName = (dayNum) => {
-                const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-                return days[dayNum];
-            };
-
+            // Check if streak should be broken
             const checkForWeeklyReflection = () => {
                 if (!weeklyReflectionEnabled) return;
                 
@@ -196,6 +192,31 @@
                     if (!lastReflectionDate || lastReflectionDate !== todayStr) {
                         setShowReflectionPopup(true);
                     }
+                }
+            };
+
+            const checkStreakExpiry = () => {
+                if (!lastSubmissionTime || phase !== 'complete') return;
+                
+                const now = Date.now();
+                const daysSinceSubmission = Math.floor((now - lastSubmissionTime) / (24 * 60 * 60 * 1000));
+                
+                // If more than 1 day has passed since submission without completion
+                if (daysSinceSubmission > 1) {
+                    if (streakFreezes > 0) {
+                        setStreakFreezes(prev => prev - 1);
+                        setShowStreakProtectedPopup(true);
+                    } else {
+                        if (streakCount > 0) {
+                            setShowStreakLostPopup(true);
+                        }
+                        setStreakCount(0);
+                    }
+                    // Reset to input phase
+                    setPhase('input');
+                    setSavedAnswer('');
+                    setLastSubmissionTime(null);
+                    setTimeRemaining(0);
                 }
             };
 
@@ -256,10 +277,26 @@
                     setTimeRemaining(0);
                 }, 4000);
             };
+
+            const handleNotComplete = () => {
+                // Reset streak when user says they didn't complete
+                if (streakCount > 0) {
+                    setStreakCount(0);
+                    setShowStreakLostPopup(true);
+                }
+                
+                // Reset to input phase
+                setPhase('input');
+                setSavedAnswer('');
+                setLastSubmissionTime(null);
+                setTimeRemaining(0);
+            };
             
             // Test functions
             const skipTimer = () => {
+                console.log("Skip timer clicked, current phase:", phase);
                 if (phase === 'waiting') {
+                    console.log("Changing to complete phase");
                     setPhase('complete');
                 }
             };
@@ -306,6 +343,18 @@
             const simulateWeeklyReflection = () => {
                 setShowReflectionPopup(true);
             };
+
+            const toggleReflectionExpanded = (timestamp) => {
+                setExpandedReflections(prev => {
+                    const newSet = new Set(prev);
+                    if (newSet.has(timestamp)) {
+                        newSet.delete(timestamp);
+                    } else {
+                        newSet.add(timestamp);
+                    }
+                    return newSet;
+                });
+            };
             
             // Effects
             useEffect(() => {
@@ -314,7 +363,8 @@
 
             useEffect(() => {
                 checkForWeeklyReflection();
-            }, [weeklyReflectionEnabled, reflectionDay, lastReflectionDate]);
+                checkStreakExpiry(); // Check for streak expiry on load and when relevant data changes
+            }, [weeklyReflectionEnabled, reflectionDay, lastReflectionDate, phase, lastSubmissionTime, streakCount, streakFreezes]);
             
             useEffect(() => {
                 saveData();
@@ -523,58 +573,77 @@
                                             <p className="text-sm mt-2">Complete your first weekly reflection to see it here!</p>
                                         </div>
                                     ) : (
-                                        <div className="space-y-6">
-                                            {completedReflections.slice().reverse().map((reflection, index) => (
-                                                <div key={reflection.timestamp} className={`border rounded-lg p-4 ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-200 bg-gray-50'}`}>
-                                                    <div className="flex justify-between items-center mb-3">
-                                                        <h4 className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                                                            Week of {new Date(reflection.date).toLocaleDateString('en-US', { 
-                                                                year: 'numeric', 
-                                                                month: 'long', 
-                                                                day: 'numeric' 
-                                                            })}
-                                                        </h4>
-                                                        <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                                                            #{completedReflections.length - index}
-                                                        </span>
-                                                    </div>
-                                                    
-                                                    <div className="space-y-3">
-                                                        {reflection.wentWell && (
+                                        <div className="space-y-4">
+                                            {completedReflections.slice().reverse().map((reflection, index) => {
+                                                const isExpanded = expandedReflections.has(reflection.timestamp);
+                                                return (
+                                                    <div key={reflection.timestamp} className={`border rounded-lg ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-200 bg-gray-50'}`}>
+                                                        {/* Header - Always Visible */}
+                                                        <button
+                                                            onClick={() => toggleReflectionExpanded(reflection.timestamp)}
+                                                            className={`w-full p-4 text-left flex justify-between items-center hover:bg-opacity-80 transition-colors ${darkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-100'}`}
+                                                        >
                                                             <div>
-                                                                <p className={`text-sm font-medium mb-1 ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
-                                                                    🌟 What went well:
-                                                                </p>
-                                                                <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                                                                    {reflection.wentWell}
-                                                                </p>
+                                                                <h4 className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                                                                    Week of {new Date(reflection.date).toLocaleDateString('en-US', { 
+                                                                        year: 'numeric', 
+                                                                        month: 'long', 
+                                                                        day: 'numeric' 
+                                                                    })}
+                                                                </h4>
+                                                                <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                                                    Reflection #{completedReflections.length - index}
+                                                                </span>
                                                             </div>
-                                                        )}
+                                                            <div className={`transform transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}>
+                                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                                    <polyline points="6,9 12,15 18,9"></polyline>
+                                                                </svg>
+                                                            </div>
+                                                        </button>
                                                         
-                                                        {reflection.didntGoWell && (
-                                                            <div>
-                                                                <p className={`text-sm font-medium mb-1 ${darkMode ? 'text-yellow-400' : 'text-yellow-600'}`}>
-                                                                    🤔 What didn't go well:
-                                                                </p>
-                                                                <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                                                                    {reflection.didntGoWell}
-                                                                </p>
-                                                            </div>
-                                                        )}
-                                                        
-                                                        {reflection.doDifferently && (
-                                                            <div>
-                                                                <p className={`text-sm font-medium mb-1 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
-                                                                    💡 What to do differently:
-                                                                </p>
-                                                                <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                                                                    {reflection.doDifferently}
-                                                                </p>
+                                                        {/* Content - Expandable */}
+                                                        {isExpanded && (
+                                                            <div className={`px-4 pb-4 border-t ${darkMode ? 'border-gray-600' : 'border-gray-200'}`}>
+                                                                <div className="pt-3 space-y-3">
+                                                                    {reflection.wentWell && (
+                                                                        <div>
+                                                                            <p className={`text-sm font-medium mb-1 ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
+                                                                                🌟 What went well:
+                                                                            </p>
+                                                                            <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                                                                                {reflection.wentWell}
+                                                                            </p>
+                                                                        </div>
+                                                                    )}
+                                                                    
+                                                                    {reflection.didntGoWell && (
+                                                                        <div>
+                                                                            <p className={`text-sm font-medium mb-1 ${darkMode ? 'text-yellow-400' : 'text-yellow-600'}`}>
+                                                                                🤔 What didn't go well:
+                                                                            </p>
+                                                                            <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                                                                                {reflection.didntGoWell}
+                                                                            </p>
+                                                                        </div>
+                                                                    )}
+                                                                    
+                                                                    {reflection.doDifferently && (
+                                                                        <div>
+                                                                            <p className={`text-sm font-medium mb-1 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                                                                                💡 What to do differently:
+                                                                            </p>
+                                                                            <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                                                                                {reflection.doDifferently}
+                                                                            </p>
+                                                                        </div>
+                                                                    )}
+                                                                </div>
                                                             </div>
                                                         )}
                                                     </div>
-                                                </div>
-                                            ))}
+                                                );
+                                            })}
                                         </div>
                                     )}
                                 </div>
@@ -887,12 +956,20 @@
                                 <p className={darkMode ? 'text-gray-400' : 'text-gray-600'}>
                                     Did you make today better?
                                 </p>
-                                <button
-                                    onClick={handleComplete}
-                                    className="w-full bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 transition-colors font-medium"
-                                >
-                                    Complete
-                                </button>
+                                <div className="flex gap-4">
+                                    <button
+                                        onClick={handleComplete}
+                                        className="flex-1 bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 transition-colors font-medium"
+                                    >
+                                        Yes, I did! ✓
+                                    </button>
+                                    <button
+                                        onClick={handleNotComplete}
+                                        className="flex-1 bg-red-500 text-white py-3 px-6 rounded-lg hover:bg-red-600 transition-colors font-medium"
+                                    >
+                                        No, I didn't ✗
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </div>
